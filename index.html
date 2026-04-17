@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Smart Grocery Basket Optimizer — an interactive visual simulator comparing Greedy, DP, and Branch & Bound approaches to the Knapsack Problem." />
+  <title>Knapsack Mart — Smart Basket Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="global-blurred-bg"></div>
+
+  <!-- ═══════════ NAVIGATION ═══════════ -->
+  <nav id="topnav">
+    <div class="nav-logo" id="nav-logo">
+      <span class="nav-logo-icon">🛒</span>
+      <span class="nav-logo-text">Knapsack <em>Mart</em></span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link active" data-page="shop">Shop</button>
+      <button class="nav-link" data-page="cart">Cart <span class="cart-badge" id="cart-badge">0</span></button>
+      <button class="nav-link" data-page="results">Results</button>
+      <button class="nav-link" data-page="theory">Theory</button>
+    </div>
+    <div class="nav-capacity">
+      <label for="knapsack-capacity">Capacity</label>
+      <div class="capacity-input-wrap">
+        <input type="number" id="knapsack-capacity" value="6" min="1" max="100" />
+        <span class="capacity-unit">kg</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════ PAGE: SHOP ═══════════ -->
+  <section id="page-shop" class="page active">
+
+    <!-- Hero — Panoramic Market with Cursor Tracking -->
+    <div class="hero" id="hero">
+      <div class="page-bg" id="hero-market" style="position: absolute; inset: -20px; z-index: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <img src="assets/hero-bg.png" alt="KnapsackMart Storefront" class="page-bg-img" style="width: calc(100% + 40px); height: calc(100% + 40px); object-fit: contain; transform-origin: center center;" draggable="false" />
+      </div>
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <h1 class="hero-title">Smart Grocery<br/><em>Basket Optimizer</em></h1>
+        <p class="hero-sub">Pick your groceries. We'll find the optimal basket<br/>using Greedy, Dynamic Programming &amp; Branch&nbsp;&amp;&nbsp;Bound.</p>
+        <button class="hero-cta" id="hero-cta">Start Shopping →</button>
+      </div>
+      <div class="hero-scroll-hint">
+        <div class="scroll-line"></div>
+        <span>Scroll to browse</span>
+      </div>
+    </div>
+
+    <div class="page-inner full-width">
+      <!-- Aisles -->
+      <div class="shop-section immersive">
+      <div class="section-header">
+        <h2 class="section-title">The Aisles</h2>
+        <p class="section-sub">Click items to add them to your basket</p>
+      </div>
+
+      <div class="shop-viewport" id="shop-viewport">
+        <!-- Interactive Market Navigation Map -->
+        <div class="interactive-map-wrapper">
+          <div class="map-hint" id="map-hint">← Drag to explore the store. Click an aisle to view items. →</div>
+          <div class="interactive-map-container" id="interactive-map-container">
+            <div class="interactive-map" id="interactive-map">
+              <img src="assets/bg-shop-pano.png" alt="Supermarket Map" draggable="false" />
+              <!-- Hotspots (11 categories) -->
+              <button class="map-hotspot" data-cat="fruits" style="left: 0.5%; width: 8.5%;" aria-label="Fruits"></button>
+              <button class="map-hotspot" data-cat="vegetables" style="left: 9.5%; width: 8.5%;" aria-label="Vegetables"></button>
+              <button class="map-hotspot" data-cat="dairy" style="left: 18.5%; width: 8.5%;" aria-label="Dairy"></button>
+              <button class="map-hotspot" data-cat="bakery" style="left: 27.5%; width: 8.5%;" aria-label="Bakery"></button>
+              <button class="map-hotspot" data-cat="snacks" style="left: 36.5%; width: 8.5%;" aria-label="Snacks"></button>
+              <button class="map-hotspot" data-cat="grains" style="left: 45.5%; width: 8.5%;" aria-label="Grains & Staples"></button>
+              <button class="map-hotspot" data-cat="packaged" style="left: 54.5%; width: 8.5%;" aria-label="Packaged Foods"></button>
+              <button class="map-hotspot" data-cat="spices" style="left: 63.5%; width: 8.5%;" aria-label="Spices"></button>
+              <button class="map-hotspot" data-cat="beverages" style="left: 72.5%; width: 8.5%;" aria-label="Beverages"></button>
+              <button class="map-hotspot" data-cat="household" style="left: 81.5%; width: 8.5%;" aria-label="Household"></button>
+              <button class="map-hotspot" data-cat="stationery" style="left: 90.5%; width: 9%;" aria-label="Stationery"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="products-overlay" id="products-overlay">
+          <div class="overlay-header">
+            <button class="btn-back" id="btn-back-to-map">← Back to Store Map</button>
+            <h3 class="aisle-title" id="active-aisle-name">Aisle Name</h3>
+          </div>
+          <div class="products-grid" id="products-grid"></div>
+        </div>
+      </div>
+
+      <!-- Add custom item -->
+      <div class="custom-section">
+        <h3 class="custom-title">Can't find what you need?</h3>
+        <form id="custom-item-form" class="custom-form">
+          <input type="text" id="ci-name" placeholder="Item name" required />
+          <select id="ci-category">
+            <option value="dairy">🥛 Dairy</option>
+            <option value="bakery">🍞 Bakery</option>
+            <option value="fruits">🍎 Fruits</option>
+            <option value="vegetables">🥦 Vegetables</option>
+            <option value="snacks">🍪 Snacks</option>
+            <option value="grains">🍚 Grains & Staples</option>
+            <option value="packaged">🥫 Packaged Foods</option>
+            <option value="spices">🧂 Spices</option>
+            <option value="beverages">🥤 Beverages</option>
+            <option value="household">🧼 Household</option>
+            <option value="stationery">📓 Stationery</option>
+          </select>
+          <input type="number" id="ci-weight" placeholder="Weight (kg)" min="1" required />
+          <input type="number" id="ci-value" placeholder="Value" min="1" required />
+          <input type="text" id="ci-emoji" placeholder="Emoji" value="📦" />
+          <button type="submit" class="btn-primary">+ Add Item</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PAGE: CART ═══════════ -->
+  <section id="page-cart" class="page">
+    <div class="page-bg" id="cart-market" style="position: absolute; inset: -20px; z-index: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+      <img src="assets/cart-bg.jpg" alt="Checkout Counter" class="page-bg-img" style="width: calc(100% + 40px); height: calc(100% + 40px); object-fit: contain; transform-origin: center center;" draggable="false" />
+    </div>
+    <div class="page-bg-overlay"></div>
+    <div class="page-inner">
+      <div class="cart-layout">
+        <div class="cart-items-col">
+          <div id="cart-items-list" class="cart-items-list">
+            <p class="empty-state">Your basket is empty.<br/><button class="link-btn" data-goto="shop">Browse the shop →</button></p>
+          </div>
+          <div class="cart-totals" id="cart-totals"></div>
+        </div>
+
+        <div class="cart-actions-col">
+          <div class="optimizer-card">
+            <h3>⚡ Optimize Your Basket</h3>
+            <p>Choose an algorithm to find the best items within your weight budget.</p>
+            <div class="algo-btns">
+              <button class="algo-btn greedy" id="btn-greedy" disabled>
+                <span class="algo-dot green"></span>
+                <div><strong>Greedy</strong><small>Fractional Knapsack · O(n log n)</small></div>
+              </button>
+              <button class="algo-btn dp" id="btn-dp" disabled>
+                <span class="algo-dot blue"></span>
+                <div><strong>Dynamic Programming</strong><small>0/1 Knapsack · O(n×W)</small></div>
+              </button>
+              <button class="algo-btn bb" id="btn-bb" disabled>
+                <span class="algo-dot red"></span>
+                <div><strong>Branch &amp; Bound</strong><small>0/1 Knapsack · O(2ⁿ)</small></div>
+              </button>
+              <button class="algo-btn compare" id="btn-compare" disabled>
+                <span class="algo-dot purple"></span>
+                <div><strong>Compare All</strong><small>Side-by-side analysis</small></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PAGE: RESULTS ═══════════ -->
+  <section id="page-results" class="page">
+    <div class="page-bg" data-bg="assets/bg-results.jpg"><img src="assets/bg-results.jpg" alt="" class="page-bg-img" draggable="false" /></div>
+    <div class="page-bg-overlay"></div>
+    <div class="page-inner">
+      <div id="results-container">
+        <div class="empty-state">Run an algorithm from the <button class="link-btn" data-goto="cart">Cart page</button> to see results here.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PAGE: THEORY ═══════════ -->
+  <section id="page-theory" class="page">
+    <div class="page-bg" data-bg="assets/bg-theory.jpg"><img src="assets/bg-theory.jpg" alt="" class="page-bg-img" draggable="false" /></div>
+    <div class="page-bg-overlay"></div>
+    <div class="page-inner theory-content" id="theory-content"></div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer id="app-footer">
+    <div class="footer-inner">
+      <span class="nav-logo-text">Knapsack <em>Mart</em></span>
+      <p>© 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/greedy.js"></script>
+  <script src="js/dp.js"></script>
+  <script src="js/branchbound.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/theory.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
