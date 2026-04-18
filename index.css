@@ -1402,6 +1402,29 @@ a {
   gap: .5rem
 }
 
+.made-by {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.made-by-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.made-by-names {
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 500;
+  max-width: 400px;
+  line-height: 1.4;
+}
+
 /* ═══════════ SCROLLBAR ═══════════ */
 ::-webkit-scrollbar {
   width: 6px;
