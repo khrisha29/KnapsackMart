@@ -338,13 +338,7 @@ a {
   position: relative;
   z-index: 3;
   text-align: center;
-  max-width: 800px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  padding: 3rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
 }
 
 .hero-eyebrow {
@@ -357,32 +351,40 @@ a {
   animation: fadeUp .6s var(--ease) both;
 }
 
-.hero-title {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  line-height: 1.05;
-  letter-spacing: -.03em;
-  margin-bottom: 1.5rem;
-  color: var(--text);
-  text-shadow: none;
-  animation: fadeUp .6s .1s var(--ease) both;
-}
-
-.hero-title em {
-  font-style: italic;
-  color: var(--accent-hi)
-}
+/* Removed .hero-title and .hero-title.corner */
 
 .hero-sub {
-  font-size: 1.05rem;
-  color: var(--text-dim);
-  line-height: 1.7;
-  max-width: 540px;
-  margin: 0 auto 1rem;
+  position: absolute;
+  bottom: 100px; /* Adjusted slightly to be closer to the road */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 800px;
+  z-index: 10;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--text);
+  line-height: 1.4;
   text-shadow: none;
-  font-weight: 500;
   animation: fadeUp .6s .2s var(--ease) both;
+}
+
+.sub-intro {
+  font-weight: 900;
+}
+
+.sub-algos {
+  color: var(--accent-hi);
+  font-style: italic;
+  font-weight: 700;
 }
 
 .hero-hint {
@@ -542,6 +544,11 @@ a {
   width: auto;
   display: block;
   pointer-events: none;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: contrast(1.05) brightness(1.02);
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .map-hotspot {

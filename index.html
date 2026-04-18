@@ -46,10 +46,13 @@
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
-        <h1 class="hero-title">Smart Grocery<br/><em>Basket Optimizer</em></h1>
-        <p class="hero-sub">Pick your groceries. We'll find the optimal basket<br/>using Greedy, Dynamic Programming &amp; Branch&nbsp;&amp;&nbsp;Bound.</p>
         <button class="hero-cta" id="hero-cta">Start Shopping →</button>
       </div>
+
+      <p class="hero-sub">
+        <span class="sub-intro">Pick your groceries. We'll find the optimal basket<br/>using</span>
+        <em class="sub-algos">Greedy, Dynamic Programming &amp; Branch&nbsp;&amp;&nbsp;Bound.</em>
+      </p>
       <div class="hero-scroll-hint">
         <div class="scroll-line"></div>
         <span>Scroll to browse</span>
@@ -72,17 +75,17 @@
             <div class="interactive-map" id="interactive-map">
               <img src="assets/bg-shop-pano.png" alt="Supermarket Map" draggable="false" />
               <!-- Hotspots (11 categories) -->
-              <button class="map-hotspot" data-cat="fruits" style="left: 0.5%; width: 8.5%;" aria-label="Fruits"></button>
-              <button class="map-hotspot" data-cat="vegetables" style="left: 9.5%; width: 8.5%;" aria-label="Vegetables"></button>
-              <button class="map-hotspot" data-cat="dairy" style="left: 18.5%; width: 8.5%;" aria-label="Dairy"></button>
-              <button class="map-hotspot" data-cat="bakery" style="left: 27.5%; width: 8.5%;" aria-label="Bakery"></button>
-              <button class="map-hotspot" data-cat="snacks" style="left: 36.5%; width: 8.5%;" aria-label="Snacks"></button>
-              <button class="map-hotspot" data-cat="grains" style="left: 45.5%; width: 8.5%;" aria-label="Grains & Staples"></button>
-              <button class="map-hotspot" data-cat="packaged" style="left: 54.5%; width: 8.5%;" aria-label="Packaged Foods"></button>
-              <button class="map-hotspot" data-cat="spices" style="left: 63.5%; width: 8.5%;" aria-label="Spices"></button>
-              <button class="map-hotspot" data-cat="beverages" style="left: 72.5%; width: 8.5%;" aria-label="Beverages"></button>
-              <button class="map-hotspot" data-cat="household" style="left: 81.5%; width: 8.5%;" aria-label="Household"></button>
-              <button class="map-hotspot" data-cat="stationery" style="left: 90.5%; width: 9%;" aria-label="Stationery"></button>
+              <button class="map-hotspot" data-cat="fruits" style="left: 0%; width: calc(100% / 11);" aria-label="Fruits"></button>
+              <button class="map-hotspot" data-cat="vegetables" style="left: calc(100% / 11 * 1); width: calc(100% / 11);" aria-label="Vegetables"></button>
+              <button class="map-hotspot" data-cat="dairy" style="left: calc(100% / 11 * 2); width: calc(100% / 11);" aria-label="Dairy"></button>
+              <button class="map-hotspot" data-cat="bakery" style="left: calc(100% / 11 * 3); width: calc(100% / 11);" aria-label="Bakery"></button>
+              <button class="map-hotspot" data-cat="snacks" style="left: calc(100% / 11 * 4); width: calc(100% / 11);" aria-label="Snacks"></button>
+              <button class="map-hotspot" data-cat="grains" style="left: calc(100% / 11 * 5); width: calc(100% / 11);" aria-label="Grains & Staples"></button>
+              <button class="map-hotspot" data-cat="packaged" style="left: calc(100% / 11 * 6); width: calc(100% / 11);" aria-label="Packaged Foods"></button>
+              <button class="map-hotspot" data-cat="spices" style="left: calc(100% / 11 * 7); width: calc(100% / 11);" aria-label="Spices"></button>
+              <button class="map-hotspot" data-cat="beverages" style="left: calc(100% / 11 * 8); width: calc(100% / 11);" aria-label="Beverages"></button>
+              <button class="map-hotspot" data-cat="household" style="left: calc(100% / 11 * 9); width: calc(100% / 11);" aria-label="Household"></button>
+              <button class="map-hotspot" data-cat="stationery" style="left: calc(100% / 11 * 10); width: calc(100% / 11);" aria-label="Stationery"></button>
             </div>
           </div>
         </div>
